@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PizzaBestilling med mvc</title>
+</head>
+<body>
+    <div id="app"></div>
+    <!-- <p>Ferdighet 9f - Valgsetninger - Sammenligne flere ting på en gang (og og eller sammen)</p>
+    <h3>Pizza-bestilling</h3>
+    <div id="info" style="padding-bottom: 20px;">Gjør ett valg på hver linje:</div>
+    Bunn: <input id="tykkBunn" type="radio" name="bunn" onchange="info()" />Tykk
+    <input id="tynnBunn" type="radio" name="bunn" onchange="info()" />Tynn <br />
+    Fyll: <input id="fyllTaco" type="radio" name="fyll" onchange="info()" />Taco
+    <input id="fyllKylling" type="radio" name="fyll" onchange="info()" />Kylling
+    <input id="fyllPepperoni" type="radio" name="fyll" onchange="info()" />Pepperoni<br />
+    Størrelse: <input id="stor" type="radio" name="str" onchange="info()" />Stor
+    <input id="middels" type="radio" name="str" onchange="info()" />Middels
+    <input id="liten" type="radio" name="str" onchange="info()" />Liten<br />
+    <button id="bestill" disabled="" onclick="alert('Bestilt!');">Bestill</button>
+    <ul>
+        <li>Oppgave: Legg til et fyll til</li>
+        <li>Oppgave: Legg til en ting til i pizza-bestillingen, for eksempel firkantet eller rund pizza</li>
+    </ul> -->
+    <button>hei</button>
+    <script>
+        //hjelpevariabel
+        let appDiv = document.getElementById('app');
+
+        //model
+
+        let bunn = '';
+        let fyll = '';
+        let størrelse = '';
+        let valgtText = 'Du har ikke valgt noe enda!';
+        let disabledButton = 'disabled';
+        let utseende = '';
+
+        show();
+        function show(){
+           let html = `<h1>PizzaBestilling</h1>
+           Bunn: <br>
+            <input type="radio" name="pizzaBunn"  onchange="info('Tykk Bunn')"/> Tykk Bunn
+            <input type="radio" name="pizzaBunn"  onchange="info('Tynn Bunn')"/> Tynn Bunn 
+        <br>
+            Fyll: <br>
+            <input type="radio" name="pizzaFyll" onchange="info('Pepperoni')"/> Pepperoni
+            <input type="radio" name="pizzaFyll" onchange="info('Kylling')"/> Kylling
+            <input type="radio" name="pizzaFyll" onchange="info('Taco')"/> Taco
+            <input type="radio" name="pizzaFyll" onchange="info('Skinke')" /> Skinke
+        <br>
+            Størrelse: <br>
+            <input type="radio" name="pizzaStr" onchange="info('Stor')"/> Stor
+            <input type="radio" name="pizzaStr" onchange="info('Liten')"/> Liten
+        <br>
+            Utseende: <br>
+            <input type="radio" name="pizzaAppearance" onchange="info('Stygg')"/> Stygg 
+            <input type="radio" name="pizzaAppearance" onchange="info('Pen')" /> Pen
+            <input type="radio" name="pizzaAppearance" onchange="info('Vakker')" /> Vakker
+            <div id="textBox"></div>
+            
+           ` ;
+
+           appDiv.innerHTML = html;
+        }
+
+        showText();
+        function showText(){
+            let html = `<div>${valgtText} ${bunn} ${fyll} ${størrelse} ${utseende}</div><br>
+            <button ${disabledButton} onclick="checkOrder()">Bestill Pizza</button>`
+            document.getElementById('textBox').innerHTML = html
+        }
+
+        //controller
+
+        function info(valgtItem){
+            console.log(valgtItem, 'hva er dette?');
+
+            if(valgtItem == 'Tynn Bunn' || valgtItem == 'Tykk Bunn'){
+                valgtText = 'Du har valgt: '
+                bunn = valgtItem;
+              
+            }
+
+            if(valgtItem == 'Pepperoni' || valgtItem == 'Kylling' || valgtItem == 'Taco' || valgtItem == 'Skinke'){
+                valgtText = 'Du har valgt: '
+                fyll = valgtItem;
+            }
+
+            if (valgtItem == 'Stor' || valgtItem == 'Liten'){
+                valgtText = 'Du har valgt: '
+                størrelse = valgtItem;
+            }
+            if(valgtItem == 'Pen' || valgtItem == 'Stygg' || valgtItem == 'Vakker' ){
+                valgtText = 'Du har valgt: ';
+                utseende = valgtItem;
+            }
+            if(bunn != '' && fyll != '' && størrelse != '' && utseende != ''){
+                disabledButton= 'enabled';
+            }
+
+            showText();
+
+        }
+
+        function checkOrder(){
+            valgtText = ` <button onclick="newOrder()">Legg inn ny bestilling</button>
+            Du har nå Bestilt en pizza! Den har :`;
+            showText();
+        }
+        function newOrder(){
+            bunn = '';
+            fyll = '';
+            størrelse = '';
+            utseende = '';
+            valgtText = 'Du har ikke valgt noe enda!'
+            disabledButton = 'disabled'
+            show();
+            showText();
+        }
+
+        // var btnBestill = document.getElementById('bestill');
+        // var infoDiv = document.getElementById('info');
+        // var bunnTykk = document.getElementById('tykkBunn');
+        // var bunnTynn = document.getElementById('tynnBunn');
+        // var fyllTaco = document.getElementById('fyllTaco');
+        // var fyllKylling = document.getElementById('fyllKylling');
+        // var fyllPepperoni = document.getElementById('fyllPepperoni');
+        // var strStor = document.getElementById('stor');
+        // var strMiddels = document.getElementById('middels');
+        // var strLiten = document.getElementById('liten');
+
+        // function info() {
+        //     if ((bunnTykk.checked || bunnTynn.checked) &&
+        //         (fyllTaco.checked || fyllKylling.checked || fyllPepperoni.checked) &&
+        //         (strStor.checked || strMiddels.checked || strLiten.checked)) {
+        //         infoDiv.innerHTML = 'Du har fylt ut alt og er klar til å bestille!';
+        //         btnBestill.disabled = false;
+        //     } else {
+        //         infoDiv.innerHTML = 'Du har ikke valgt:';
+        //         if (bunnTykk.checked || bunnTynn.checked) {                    
+        //         } else {
+        //            infoDiv.innerHTML += '<li>bunn</li>';
+        //         }
+        //         if (!bunnTykk.checked && !bunnTynn.checked) {
+        //             infoDiv.innerHTML += '<li>bunn</li>';
+        //         }
+        //         if (!fyllTaco.checked && !fyllKylling.checked && !fyllPepperoni.checked) {
+        //             infoDiv.innerHTML += '<li>fyll</li>';
+        //         }
+        //         if (!strStor.checked && !strMiddels.checked && !strLiten.checked) {
+        //             infoDiv.innerHTML += '<li>størrelse</li>';
+        //         }
+        //     }
+        // }
+    </script>
+</body>
+</html>
